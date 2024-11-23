@@ -20,10 +20,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     Context context;
     ArrayList<Category> categories;
 
-    public CategoryAdapter(Context context, ArrayList<Category> categories) {
+
+    public interface CategoryClickListener{
+        void onCategoryClicked(Category category);
+    }
+
+    CategoryClickListener categoryClickListener;
+
+    public CategoryAdapter(Context context, ArrayList<Category> categories, CategoryClickListener categoryClickListener) {
         this.context = context;
         this.categories = categories;
-//        this.categoryClickListener = categoryClickListener;
+        this.categoryClickListener = categoryClickListener;
     }
 
 
@@ -41,6 +48,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         holder.binding.categoryIcon.setBackgroundTintList(context.getColorStateList(category.getCategoryColor()));
 
+        holder.itemView.setOnClickListener(c-> {
+            categoryClickListener.onCategoryClicked(category);
+        });
     }
 
     @Override

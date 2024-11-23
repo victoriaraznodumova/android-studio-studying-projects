@@ -9,13 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.misis.homework2.R;
+import com.misis.homework2.adapters.AccountsAdapter;
 import com.misis.homework2.adapters.CategoryAdapter;
 import com.misis.homework2.databinding.FragmentAddTransactionBinding;
 import com.misis.homework2.databinding.ListDialogBinding;
+import com.misis.homework2.models.Account;
 import com.misis.homework2.models.Category;
 
 import java.util.ArrayList;
@@ -97,11 +101,44 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
             categories.add(new Category("Прочее", R.drawable.statistics, R.color.category6));
 
 
-            CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), categories);
+            CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), categories, new CategoryAdapter.CategoryClickListener() {
+                @Override
+                public void onCategoryClicked(Category category) {
+                    binding.category.setText(category.getCategoryName());
+                    categoryDialog.dismiss();
+                }
+            });
             dialogBinding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
             dialogBinding.recyclerView.setAdapter(categoryAdapter);
 
             categoryDialog.show();
+
+        });
+
+        binding.account.setOnClickListener(c-> {
+            ListDialogBinding dialogBinding = ListDialogBinding.inflate(inflater);
+            AlertDialog accountsDialog = new AlertDialog.Builder(getContext()).create();
+            accountsDialog.setView(dialogBinding.getRoot());
+
+            ArrayList<Account> accounts = new ArrayList<>();
+            accounts.add(new Account(0, "Наличные"));
+            accounts.add(new Account(0, "Т-Банк"));
+            accounts.add(new Account(0, "Сбер"));
+            accounts.add(new Account(0, "Альфа-банк"));
+
+            AccountsAdapter adapter = new AccountsAdapter(getContext(), accounts, new AccountsAdapter.AccountsClickListener() {
+                @Override
+                public void onAccountSelected(Account account) {
+                    binding.account.setText(account.getAccountName());
+                    accountsDialog.dismiss();
+                }
+            });
+            dialogBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            dialogBinding.recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+            dialogBinding.recyclerView.setAdapter(adapter);
+
+            accountsDialog.show();
+
 
         });
 
