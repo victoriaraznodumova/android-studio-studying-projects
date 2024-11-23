@@ -4,6 +4,7 @@ public class Category {
 
     private String categoryName;
     private int categoryImage;
+    private int categoryColor;
 
 
 
@@ -11,10 +12,10 @@ public class Category {
     }
 
 
-    public Category(String categoryName, int categoryImage) {
+    public Category(String categoryName, int categoryImage, int categoryColor) {
         this.categoryName = categoryName;
         this.categoryImage = categoryImage;
-//        this.categoryColor = categoryColor;
+        this.categoryColor = categoryColor;
     }
 
 
@@ -35,6 +36,11 @@ public class Category {
     }
 
 
+    public int getCategoryColor() {
+        return categoryColor;
+    }
 
-
+    public void setCategoryColor(int categoryColor) {
+        this.categoryColor = categoryColor;
+    }
 }
