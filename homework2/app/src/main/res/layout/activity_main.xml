@@ -32,7 +32,7 @@
         tools:layout_editor_absoluteX="0dp">
 
         <ImageView
-            android:id="@+id/previousDate"
+            android:id="@+id/previousDateBtn"
             android:layout_width="20dp"
             android:layout_height="28dp"
             android:rotation="180"
@@ -48,7 +48,7 @@
             android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/nextDate"
+            android:id="@+id/nextDateBtn"
             android:layout_width="20dp"
             android:layout_height="28dp"
             app:srcCompat="@drawable/next1" />

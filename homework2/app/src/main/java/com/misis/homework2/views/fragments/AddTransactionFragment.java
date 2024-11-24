@@ -21,6 +21,8 @@ import com.misis.homework2.databinding.FragmentAddTransactionBinding;
 import com.misis.homework2.databinding.ListDialogBinding;
 import com.misis.homework2.models.Account;
 import com.misis.homework2.models.Category;
+import com.misis.homework2.utils.Constants;
+import com.misis.homework2.utils.Helper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -73,9 +75,9 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
                     calendar.set(Calendar.MONTH, datePicker.getMonth());
                     calendar.set(Calendar.YEAR, datePicker.getYear());
 
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM, yyyy");
+//                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM, yyyy");
 //                    String dateToShow = Helper.formatDate(calendar.getTime());
-                    String dateToShow = dateFormat.format(calendar.getTime());
+                    String dateToShow = Helper.formatDate(calendar.getTime());
 
                     binding.date.setText(dateToShow);
 
@@ -92,16 +94,9 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
             categoryDialog.setView(dialogBinding.getRoot());
 
 
-            ArrayList categories = new ArrayList<>();
-            categories.add(new Category("Заработная плата", R.drawable.statistics, R.color.category1));
-            categories.add(new Category("Премия", R.drawable.statistics, R.color.category2));
-            categories.add(new Category("Подработка", R.drawable.statistics, R.color.category3));
-            categories.add(new Category("Донат", R.drawable.statistics, R.color.category4));
-            categories.add(new Category("Кредит", R.drawable.statistics, R.color.category5));
-            categories.add(new Category("Прочее", R.drawable.statistics, R.color.category6));
 
 
-            CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), categories, new CategoryAdapter.CategoryClickListener() {
+            CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), Constants.categories, new CategoryAdapter.CategoryClickListener() {
                 @Override
                 public void onCategoryClicked(Category category) {
                     binding.category.setText(category.getCategoryName());
