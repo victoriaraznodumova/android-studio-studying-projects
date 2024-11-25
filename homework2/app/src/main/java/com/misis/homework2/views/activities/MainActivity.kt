@@ -80,30 +80,8 @@ class MainActivity : AppCompatActivity() {
 //        ArrayList<Transaction> transactions = new ArrayList<>();
 
 
-        //    viewmodel
-//        realm!!.beginTransaction()
-//        realm!!.copyToRealmOrUpdate(
-//            Transaction(
-//                Constants.INCOME,
-//                "Business",
-//                "Cash",
-//                "Some note",
-//                Date(),
-//                500.0,
-//                Date().time
-//            )
-//        )
-//        realm!!.copyToRealmOrUpdate(
-//            Transaction(
-//                Constants.EXPENSE,
-//                "Business",
-//                "Cash",
-//                "Some note",
-//                Date(),
-//                -50.0,
-//                Date().time
-//            )
-//        )
+
+
 //
 //
 //        realm!!.commitTransaction()
@@ -130,6 +108,19 @@ class MainActivity : AppCompatActivity() {
 
             binding.transactionsList.adapter = transactionsAdapter
         }
+
+        viewModel.totalIncome.observe(this) { income ->
+            binding.incomeLbl.text = income.toString()
+        }
+
+        viewModel.totalExpense.observe(this) { expense ->
+            binding.expenseLbl.text = expense.toString()
+        }
+
+        viewModel.totalAmount.observe(this) { amount ->
+            binding.totalLbl.text = amount.toString()
+        }
+
         viewModel.getTransactions(calendar)
 
 
