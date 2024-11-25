@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var calendar: Calendar = Calendar.getInstance()
-    lateinit var realm: Realm
 
     lateinit var viewmodel: MainViewModel
 
@@ -33,7 +32,6 @@ class MainActivity : AppCompatActivity() {
 
         val viewModel: MainViewModel by viewModels()
 
-        setupDatabase()
 
         setSupportActionBar(binding.toolBar)
         supportActionBar?.title = "Семейный бюджет"
@@ -62,22 +60,27 @@ class MainActivity : AppCompatActivity() {
 //        transactions.add(Transaction(Constants.EXPENSE, "Business", "Cash", "Some note", Date(), 50.0, 2));
 
 
-        realm.beginTransaction()
-        realm.copyToRealmOrUpdate(Transaction(Constants.INCOME, "Business", "Cash", "Some note", Date(), 500.0, System.currentTimeMillis()))
-        realm.copyToRealmOrUpdate(Transaction(Constants.EXPENSE, "Business", "Cash", "Some note", Date(), 50.0, System.currentTimeMillis()))
 
 
-        realm.commitTransaction()
 
-//      select * from transactions
+//        viewModel.transactions.observe(this, new Observer<RealmResults<Transaction>>(){
+//            @Override
+//            public void onChanged(RealmResults<Transaction> transactions){
+//
+//            }
+//        })
 
-
-        val transactions = realm.where(Transaction::class.java).findAll()
-
-
-        val transactionsAdapter = TransactionsAdapter(this, transactions)
         binding.transactionsList.layoutManager = LinearLayoutManager(this)
-        binding.transactionsList.adapter = transactionsAdapter
+
+        viewModel.transactions.observe(this) { transactions ->
+            val transactionsAdapter = TransactionsAdapter(this@MainActivity, transactions)
+            binding.transactionsList.adapter = transactionsAdapter
+
+        }
+
+        viewModel.getTransactions()
+
+
 
 
 
