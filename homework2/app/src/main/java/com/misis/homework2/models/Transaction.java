@@ -2,13 +2,16 @@ package com.misis.homework2.models;
 
 import java.util.Date;
 
-public class Transaction {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class Transaction extends RealmObject {
 
     private String type, category, account, note;
     private Date date;
     private double amount;
 
-//    @PrimaryKey
+    @PrimaryKey
     private long id;
 
     public Transaction() {

@@ -19,13 +19,15 @@ import com.misis.homework2.utils.Helper;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import io.realm.RealmResults;
+
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionViewHolder>{
 
 
     Context context;
-    ArrayList<Transaction> transactions;
+    RealmResults<Transaction> transactions;
 
-    public TransactionsAdapter(Context context, ArrayList<Transaction> transactions){
+    public TransactionsAdapter(Context context, RealmResults<Transaction> transactions){
         this.context = context;
         this.transactions = transactions;
     }
@@ -47,8 +49,21 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 
         Category transactionCategory = Constants.getCategoryDetails(transaction.getCategory());
 
-        holder.binding.categoryIcon.setImageResource(transactionCategory.getCategoryImage());
-        holder.binding.categoryIcon.setBackgroundTintList(context.getColorStateList(transactionCategory.getCategoryColor()));
+//        assert transactionCategory != null;
+
+        if (transactionCategory != null) {
+            holder.binding.categoryIcon.setImageResource(transactionCategory.getCategoryImage());
+        } else {
+            // Установите изображение по умолчанию или оставьте пустым
+            holder.binding.categoryIcon.setImageResource(R.drawable.statistics);
+        }
+//        holder.binding.categoryIcon.setImageResource(transactionCategory.getCategoryImage());
+        if (transactionCategory != null) {
+            holder.binding.categoryIcon.setBackgroundTintList(context.getColorStateList(transactionCategory.getCategoryColor()));
+        }
+        else{
+            holder.binding.categoryIcon.setImageResource(R.color.black);
+        }
 
         holder.binding.accountLbl.setBackgroundTintList(context.getColorStateList(Constants.getAccountsColor(transaction.getAccount())));
 
