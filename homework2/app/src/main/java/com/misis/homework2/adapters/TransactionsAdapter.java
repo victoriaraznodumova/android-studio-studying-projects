@@ -82,14 +82,14 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 
     public class TransactionViewHolder extends RecyclerView.ViewHolder{
 
-    RowTransactionsBinding binding;
+        RowTransactionsBinding binding;
 
-    public TransactionViewHolder(@NonNull View itemView){
-        super(itemView);
-        binding = RowTransactionsBinding.bind(itemView);
+        public TransactionViewHolder(@NonNull View itemView){
+            super(itemView);
+            binding = RowTransactionsBinding.bind(itemView);
 
 
-    }
+        }
 
 
 
