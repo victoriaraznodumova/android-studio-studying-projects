@@ -2,13 +2,14 @@ package com.misis.homework2.views.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.misis.homework2.adapters.TransactionsAdapter
 import com.misis.homework2.databinding.ActivityMainBinding
 import com.misis.homework2.models.Transaction
 import com.misis.homework2.utils.Constants
 import com.misis.homework2.utils.Helper
-//import com.misis.homework2.viewmodels.MainViewModel
+import com.misis.homework2.viewmodels.MainViewModel
 import com.misis.homework2.views.fragments.AddTransactionFragment
 import io.realm.Realm
 import io.realm.RealmResults
@@ -20,17 +21,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var calendar: Calendar = Calendar.getInstance()
 
-//    lateinit var viewmodel: MainViewModel
+//    viewmodel
+//    lateinit var realm: Realm
 
-    lateinit var realm: Realm
+    lateinit var viewModel: MainViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupDatabase()
+        //    viewmodel
+//      setupDatabase()
 
-//        val viewModel: MainViewModel by viewModels()
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
 
         setSupportActionBar(binding.toolBar)
@@ -76,37 +80,41 @@ class MainActivity : AppCompatActivity() {
 //        ArrayList<Transaction> transactions = new ArrayList<>();
 
 
-        realm!!.beginTransaction()
-        realm!!.copyToRealmOrUpdate(
-            Transaction(
-                Constants.INCOME,
-                "Business",
-                "Cash",
-                "Some note",
-                Date(),
-                500.0,
-                Date().time
-            )
-        )
-        realm!!.copyToRealmOrUpdate(
-            Transaction(
-                Constants.EXPENSE,
-                "Business",
-                "Cash",
-                "Some note",
-                Date(),
-                -50.0,
-                Date().time
-            )
-        )
-
-
-        realm!!.commitTransaction()
+        //    viewmodel
+//        realm!!.beginTransaction()
+//        realm!!.copyToRealmOrUpdate(
+//            Transaction(
+//                Constants.INCOME,
+//                "Business",
+//                "Cash",
+//                "Some note",
+//                Date(),
+//                500.0,
+//                Date().time
+//            )
+//        )
+//        realm!!.copyToRealmOrUpdate(
+//            Transaction(
+//                Constants.EXPENSE,
+//                "Business",
+//                "Cash",
+//                "Some note",
+//                Date(),
+//                -50.0,
+//                Date().time
+//            )
+//        )
+//
+//
+//        realm!!.commitTransaction()
 
 
 
 //        RealmResults<Transaction> transactions = realm.where(Transaction.class).findAll();
-        val transactions: RealmResults<Transaction> = realm.where(Transaction::class.java).findAll()
+
+
+        //    viewmodel
+// val transactions: RealmResults<Transaction> = realm.where(Transaction::class.java).findAll()
 
 
 
@@ -116,10 +124,17 @@ class MainActivity : AppCompatActivity() {
 //        binding.transactionsList.layoutManager(new LinearLayoutManager(this));
 //        binding.transactionsList.setAdapter(transactionsAdapter);
 
-
-        val transactionsAdapter = TransactionsAdapter(this@MainActivity, transactions)
         binding.transactionsList.layoutManager = LinearLayoutManager(this)
-        binding.transactionsList.adapter = transactionsAdapter
+        viewModel.transactions.observe(this) { transactions: RealmResults<Transaction>? ->
+            val transactionsAdapter = TransactionsAdapter(this@MainActivity, transactions)
+
+            binding.transactionsList.adapter = transactionsAdapter
+        }
+        viewModel.getTransactions()
+
+
+
+
 
 
 //
@@ -138,10 +153,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun setupDatabase() {
-        Realm.init(this)
-        realm = Realm.getDefaultInstance()
-    }
+    //перенесен в viewmodel
+//    fun setupDatabase() {
+//        Realm.init(this)
+//        realm = Realm.getDefaultInstance()
+//    }
 
 
 
