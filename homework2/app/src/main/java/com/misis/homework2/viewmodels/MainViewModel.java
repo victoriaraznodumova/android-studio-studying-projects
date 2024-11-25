@@ -33,9 +33,26 @@ public class MainViewModel extends AndroidViewModel {
 
 //
 //
-    public void getTransactions() {
+    public void getTransactions(Calendar calendar) {
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+
         //      select * from transactions
-        RealmResults<Transaction> newTransactions = realm.where(Transaction.class).findAll();
+
+
+        RealmResults<Transaction> newTransactions = realm.where(Transaction.class)
+                .greaterThanOrEqualTo("date", calendar.getTime())
+                .lessThan("date", new Date(calendar.getTime().getTime() + (24*60*60*1000)))
+                //получаем миллисекунды, чтобы отображать значения для даты с 00:00 до 23:59
+                .findAll();
+
+
+//        RealmResults<Transaction> newTransactions = realm.where(Transaction.class)
+//                .equalTo("date", calendar.getTime())
+//                .findAll();
         transactions.setValue(newTransactions);
 //
 //
