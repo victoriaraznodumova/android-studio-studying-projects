@@ -109,17 +109,17 @@ class MainActivity : AppCompatActivity() {
             binding.transactionsList.adapter = transactionsAdapter
         }
 
-//        viewModel.totalIncome.observe(this) { income ->
-//            binding.incomeLbl.text = income.toString()
-//        }
-//
-//        viewModel.totalExpense.observe(this) { expense ->
-//            binding.expenseLbl.text = expense.toString()
-//        }
-//
-//        viewModel.totalAmount.observe(this) { amount ->
-//            binding.totalLbl.text = amount.toString()
-//        }
+        viewModel.totalIncome.observe(this) { income ->
+            binding.incomeLbl.text = income.toString()
+        }
+
+        viewModel.totalExpense.observe(this) { expense ->
+            binding.expenseLbl.text = expense.toString()
+        }
+
+        viewModel.totalAmount.observe(this) { amount ->
+            binding.totalLbl.text = amount.toString()
+        }
 
         viewModel.getTransactions(calendar)
 
