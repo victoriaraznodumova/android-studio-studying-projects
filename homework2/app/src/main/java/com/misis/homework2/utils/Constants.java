@@ -49,9 +49,12 @@ public class Constants {
                 return R.color.cash_color;
             case "Cash":
                 return R.color.card_color;
+            case "Альфа-банк":
+                return R.color.card_color;
             default:
                 return R.color.default_color;
         }
+        //
     }
 
 
