@@ -121,8 +121,8 @@ class MainActivity : AppCompatActivity() {
 //            binding.totalLbl.text = amount.toString()
 //        }
 
-//        viewModel.getTransactions(calendar)
-        viewModel.getTransactions()
+        viewModel.getTransactions(calendar)
+
 
 
 
@@ -155,8 +155,7 @@ class MainActivity : AppCompatActivity() {
     fun updateDate() {
 //        val dateFormat = SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault())
         binding.currentDate.text = Helper.formatDate(calendar.time)
-//        viewModel.getTransactions(calendar)
-        viewModel.getTransactions()
+        viewModel.getTransactions(calendar)
     }
 
 }
