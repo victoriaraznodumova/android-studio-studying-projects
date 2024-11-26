@@ -128,6 +128,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
 //
 //        viewModel.transactions.observe(this) { transactions ->
 //            val transactionsAdapter = TransactionsAdapter(this@MainActivity, transactions)
@@ -142,6 +143,11 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+
+    fun getTransactions() {
+        viewModel.getTransactions(calendar)
     }
 
     //перенесен в viewmodel
