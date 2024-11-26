@@ -21,8 +21,10 @@ import com.misis.homework2.databinding.FragmentAddTransactionBinding;
 import com.misis.homework2.databinding.ListDialogBinding;
 import com.misis.homework2.models.Account;
 import com.misis.homework2.models.Category;
+import com.misis.homework2.models.Transaction;
 import com.misis.homework2.utils.Constants;
 import com.misis.homework2.utils.Helper;
+import com.misis.homework2.views.activities.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,6 +42,7 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
     }
 
     FragmentAddTransactionBinding binding;
+    Transaction transaction;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,13 +50,16 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
         binding = FragmentAddTransactionBinding.inflate(inflater);
 
 
+        transaction = new Transaction();
+
         binding.incomeBtn.setOnClickListener(view -> {
             binding.incomeBtn.setBackground(getContext().getDrawable(R.drawable.income_selector));
             binding.expenseBtn.setBackground(getContext().getDrawable(R.drawable.default_selector));
             binding.expenseBtn.setTextColor(getContext().getColor(R.color.textColor));
             binding.incomeBtn.setTextColor(getContext().getColor(R.color.greenColor));
 
-//            transaction.setType(Constants.INCOME);
+
+            transaction.setType(Constants.INCOME);
         });
 
         binding.expenseBtn.setOnClickListener(view -> {
@@ -62,7 +68,7 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
             binding.incomeBtn.setTextColor(getContext().getColor(R.color.textColor));
             binding.expenseBtn.setTextColor(getContext().getColor(R.color.redColor));
 
-//            transaction.setType(Constants.INCOME);
+            transaction.setType(Constants.EXPENSE);
         });
 
         binding.date.setOnClickListener(new View.OnClickListener() {
@@ -81,8 +87,8 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
 
                     binding.date.setText(dateToShow);
 
-//                    transaction.setDate(calendar.getTime());
-//                    transaction.setId(calendar.getTime().getTime());
+                    transaction.setDate(calendar.getTime());
+                    transaction.setId(calendar.getTime().getTime());
                 });
                 datePickerDialog.show();
             }
@@ -100,6 +106,7 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
                 @Override
                 public void onCategoryClicked(Category category) {
                     binding.category.setText(category.getCategoryName());
+                    transaction.setCategory(category.getCategoryName());
                     categoryDialog.dismiss();
                 }
             });
@@ -125,6 +132,7 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
                 @Override
                 public void onAccountSelected(Account account) {
                     binding.account.setText(account.getAccountName());
+                    transaction.setAccount(account.getAccountName());
                     accountsDialog.dismiss();
                 }
             });
@@ -135,6 +143,23 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
             accountsDialog.show();
 
 
+        });
+
+        binding.saveTransactionBtn.setOnClickListener(c-> {
+            double amount = Double.parseDouble(binding.amount.getText().toString());
+            String note = binding.note.getText().toString();
+
+            if(transaction.getType().equals(Constants.EXPENSE)) {
+                transaction.setAmount(amount*-1);
+            } else {
+                transaction.setAmount(amount);
+            }
+
+            transaction.setNote(note);
+
+            ((MainActivity)getActivity()).viewModel.addTransactions(transaction);
+            ((MainActivity)getActivity()).getTransactions();
+            dismiss();
         });
 
         return binding.getRoot();

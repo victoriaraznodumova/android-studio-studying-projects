@@ -1,6 +1,8 @@
 package com.misis.homework2.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import com.misis.homework2.models.Category;
 import com.misis.homework2.models.Transaction;
 import com.misis.homework2.utils.Constants;
 import com.misis.homework2.utils.Helper;
+import com.misis.homework2.views.activities.MainActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,6 +75,22 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         } else if (transaction.getType().equals(Constants.EXPENSE)){
             holder.binding.transactionAmount.setTextColor(context.getColor(R.color.redColor));
         }
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                AlertDialog deleteDialog = new AlertDialog.Builder(context).create();
+                deleteDialog.setTitle("Delete Transaction");
+                deleteDialog.setMessage("Are you sure to delete?");
+                deleteDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", (dialogInterface, i) -> {
+                    ((MainActivity)context).viewModel.deleteTransaction(transaction);
+                });
+                deleteDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", (dialogInterface, i) -> {
+                    deleteDialog.dismiss();
+                });
+                deleteDialog.show();
+                return false;
+            }
+        });
 
     }
 

@@ -12,6 +12,14 @@ public class Constants {
 
     public static ArrayList<Category> categories;
 
+    public static int DAILY = 0;
+    public static int MONTHLY = 1;
+    public static int CALENDAR = 2;
+    public static int SUMMARY = 3;
+    public static int NOTES = 4;
+
+    public static int SELECTED_TAB = 0;
+
     public static void setCategories() {
         categories = new ArrayList<>();
         categories.add(new Category("Salary", R.drawable.statistics, R.color.category1));

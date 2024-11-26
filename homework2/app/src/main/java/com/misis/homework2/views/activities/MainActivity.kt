@@ -1,9 +1,12 @@
 package com.misis.homework2.views.activities
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.tabs.TabLayout
 import com.misis.homework2.adapters.TransactionsAdapter
 import com.misis.homework2.databinding.ActivityMainBinding
 import com.misis.homework2.models.Transaction
@@ -21,10 +24,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var calendar: Calendar = Calendar.getInstance()
 
+    //0 - day, 1 - month, 2 - calendar, 3 - summary, 4 - notes
+
+
 //    viewmodel
 //    lateinit var realm: Realm
 
-    lateinit var viewModel: MainViewModel
+    public lateinit var viewModel: MainViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,12 +51,20 @@ class MainActivity : AppCompatActivity() {
         updateDate();
 
         binding.nextDateBtn.setOnClickListener {
-            calendar.add(Calendar.DATE, 1)
+            if (Constants.SELECTED_TAB == Constants.DAILY){
+                calendar.add(Calendar.DATE, 1)
+            } else if (Constants.SELECTED_TAB == Constants.MONTHLY){
+                calendar.add(Calendar.MONTH, 1)
+            }
             updateDate()
         }
 
         binding.previousDateBtn.setOnClickListener {
-            calendar.add(Calendar.DATE, -1)
+            if (Constants.SELECTED_TAB == Constants.DAILY){
+                calendar.add(Calendar.DATE, -1)
+            } else if (Constants.SELECTED_TAB == Constants.MONTHLY){
+                calendar.add(Calendar.MONTH, -1)
+            }
             updateDate()
         }
 
@@ -58,6 +72,65 @@ class MainActivity : AppCompatActivity() {
             AddTransactionFragment()
                 .show(supportFragmentManager, null)
         }
+
+
+//        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab){
+////                Toast.makeText(MainActivity.this, tab.getText().toString(), Toast.LENGTH_SHORT).show();
+//                if (tab.getText().equals("Monthly")){
+//                    Constants.SELECTED_TAB = 1;
+//                    updateDate();
+//                } else if (tab.getText().equals("Daily")){
+//                    Constants.SELECTED_TAB = 0;
+//                    updateDate();
+//                }
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayoit.Tab tab){
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab){
+//
+//            }
+//        });
+
+
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.text?.let { tabText ->
+                    when (tabText) {
+                        "Monthly" -> {
+                            Constants.SELECTED_TAB = 1
+                            updateDate()
+                        }
+                        "Daily" -> {
+                            Constants.SELECTED_TAB = 0
+                            updateDate()
+                        }
+                    }
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // Do nothing
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // Do nothing
+            }
+        })
+
+
+
+
+
+
+
+
 
 //        val transactions = arrayListOf<Transaction>()
 //        transactions.add(Transaction(Constants.INCOME, "Business", "Cash", "Some note", Date(), 500.0, 2));
@@ -105,8 +178,14 @@ class MainActivity : AppCompatActivity() {
         binding.transactionsList.layoutManager = LinearLayoutManager(this)
         viewModel.transactions.observe(this) { transactions: RealmResults<Transaction>? ->
             val transactionsAdapter = TransactionsAdapter(this@MainActivity, transactions)
-
             binding.transactionsList.adapter = transactionsAdapter
+
+            if (transactions?.size ?: 0 > 0) {
+                binding.emptyState.visibility = View.GONE
+            }
+            else{
+                binding.emptyState.visibility = View.VISIBLE;
+            }
         }
 
         viewModel.totalIncome.observe(this) { income ->
@@ -152,9 +231,20 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+    fun getTransactions() {
+        viewModel.getTransactions(calendar)
+    }
+
+
+
     fun updateDate() {
 //        val dateFormat = SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault())
-        binding.currentDate.text = Helper.formatDate(calendar.time)
+        if (Constants.SELECTED_TAB == Constants.DAILY) {
+            binding.currentDate.text = Helper.formatDate(calendar.time)
+        } else if (Constants.SELECTED_TAB == Constants.MONTHLY){
+            binding.currentDate.text = Helper.formatDateByMonth(calendar.time)
+        }
         viewModel.getTransactions(calendar)
     }
 

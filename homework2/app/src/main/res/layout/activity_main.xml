@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/emptyState"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:foregroundGravity="center"
@@ -36,6 +36,7 @@
             android:layout_width="20dp"
             android:layout_height="28dp"
             android:rotation="180"
+            android:tint="@color/white"
             app:srcCompat="@drawable/next1" />
 
         <TextView
@@ -51,6 +52,7 @@
             android:id="@+id/nextDateBtn"
             android:layout_width="20dp"
             android:layout_height="28dp"
+            android:tint="@color/white"
             app:srcCompat="@drawable/next1" />
 
     </LinearLayout>
@@ -216,5 +218,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
         tools:listitem="@layout/row_transactions" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:alpha="0.4"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/transactionsList"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        app:srcCompat="@drawable/empty_state" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
