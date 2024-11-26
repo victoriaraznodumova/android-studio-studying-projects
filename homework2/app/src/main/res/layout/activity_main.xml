@@ -46,6 +46,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="22 Nov"
+            android:textColor="@color/white"
             android:textSize="16sp" />
 
         <ImageView
@@ -74,11 +75,6 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Calendar" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="Daily" />
 
         <com.google.android.material.tabs.TabItem
@@ -89,7 +85,8 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Summary" />
+            android:text="Yearly" />
+
     </com.google.android.material.tabs.TabLayout>
 
     <LinearLayout

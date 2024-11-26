@@ -82,7 +82,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
                 deleteDialog.setTitle("Delete Transaction");
                 deleteDialog.setMessage("Are you sure to delete?");
                 deleteDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", (dialogInterface, i) -> {
-                    ((MainActivity)context).viewModel.deleteTransaction(transaction);
+//                    ((MainActivity)context).viewModel.deleteTransaction(transaction);
                 });
                 deleteDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", (dialogInterface, i) -> {
                     deleteDialog.dismiss();
