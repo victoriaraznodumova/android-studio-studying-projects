@@ -99,6 +99,17 @@ public class MainViewModel extends AndroidViewModel {
 //
 //
 //
+
+    public void addTransactions(Transaction transaction){
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(transaction);
+
+
+        realm.commitTransaction();
+    }
+
+
+
     public void addTransactions(){
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(new Transaction(Constants.INCOME, "Business", "Cash", "Some note", new Date(), 500.0, new Date().getTime()));

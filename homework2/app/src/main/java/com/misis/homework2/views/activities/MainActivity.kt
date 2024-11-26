@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 //    viewmodel
 //    lateinit var realm: Realm
 
-    lateinit var viewModel: MainViewModel
+    public lateinit var viewModel: MainViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

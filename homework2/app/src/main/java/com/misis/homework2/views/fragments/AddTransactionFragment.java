@@ -157,7 +157,7 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
 
             transaction.setNote(note);
 
-//            ((MainActivity)getActivity()).viewModel.addTransactions(transaction);
+            ((MainActivity)getActivity()).viewModel.addTransactions(transaction);
 //            ((MainActivity)getActivity()).getTransactions();
             dismiss();
         });
