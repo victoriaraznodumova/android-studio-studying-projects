@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
+//    implementation ("com.github.AnyChart:AnyChart-Android:1.1.5")
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.room.common)
     testImplementation(libs.junit)
