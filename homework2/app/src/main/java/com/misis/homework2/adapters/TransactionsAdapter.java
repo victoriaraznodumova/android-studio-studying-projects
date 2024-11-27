@@ -79,12 +79,12 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             @Override
             public boolean onLongClick(View view) {
                 AlertDialog deleteDialog = new AlertDialog.Builder(context).create();
-                deleteDialog.setTitle("Delete Transaction");
-                deleteDialog.setMessage("Are you sure to delete?");
-                deleteDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", (dialogInterface, i) -> {
-//                    ((MainActivity)context).viewModel.deleteTransaction(transaction);
+                deleteDialog.setTitle("Удаление транзакции");
+                deleteDialog.setMessage("Вы уверены, что хотите удалить транзакцию?");
+                deleteDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Да", (dialogInterface, i) -> {
+                    ((MainActivity)context).viewModel.deleteTransaction(transaction);
                 });
-                deleteDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", (dialogInterface, i) -> {
+                deleteDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Нет", (dialogInterface, i) -> {
                     deleteDialog.dismiss();
                 });
                 deleteDialog.show();
