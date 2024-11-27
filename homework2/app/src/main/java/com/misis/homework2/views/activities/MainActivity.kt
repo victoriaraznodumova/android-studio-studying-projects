@@ -55,6 +55,9 @@ class MainActivity : AppCompatActivity() {
             else if (Constants.SELECTED_TAB == Constants.MONTHLY){
                 calendar.add(Calendar.MONTH, 1)
             }
+            else if (Constants.SELECTED_TAB == Constants.YEAR){
+                calendar.add(Calendar.YEAR, 1)
+            }
 
             updateDate()
         }
@@ -65,6 +68,9 @@ class MainActivity : AppCompatActivity() {
             }
             else if (Constants.SELECTED_TAB == Constants.MONTHLY){
                 calendar.add(Calendar.MONTH, -1)
+            }
+            else if (Constants.SELECTED_TAB == Constants.YEAR){
+                calendar.add(Calendar.YEAR, -1)
             }
 
             updateDate()
@@ -217,6 +223,9 @@ class MainActivity : AppCompatActivity() {
         }
         else if (Constants.SELECTED_TAB == Constants.MONTHLY){
             binding.currentDate.text = Helper.formatDateByMonth(calendar.time)
+        }
+        else if(Constants.SELECTED_TAB == Constants.YEAR){
+            binding.currentDate.text = Helper.formatDateByYear(calendar.time)
         }
 
         viewModel.getTransactions(calendar)

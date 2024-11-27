@@ -135,6 +135,48 @@ public class MainViewModel extends AndroidViewModel {
 
         }
 
+
+
+        else if (Constants.SELECTED_TAB == Constants.YEAR)
+        {
+            calendar.set(Calendar.DAY_OF_YEAR, 0);
+            Date startTime = calendar.getTime();
+
+            calendar.add(Calendar.YEAR, 1);
+            Date endTime = calendar.getTime();
+
+            newTransactions = realm.where(Transaction.class)
+                    .greaterThanOrEqualTo("date", startTime)
+                    .lessThan("date", endTime)
+                    //получаем миллисекунды, чтобы отображать значения для даты с 00:00 до 23:59
+                    .findAll();
+
+            income = realm.where(Transaction.class)
+                    .greaterThanOrEqualTo("date", startTime)
+                    .lessThan("date", endTime)
+                    .equalTo("type", Constants.INCOME)
+                    .sum("amount")
+                    .doubleValue();
+
+            expense = realm.where(Transaction.class)
+                    .greaterThanOrEqualTo("date", startTime)
+                    .lessThan("date", endTime)
+                    .equalTo("type", Constants.EXPENSE)
+                    .sum("amount")
+                    .doubleValue();
+
+
+            total = realm.where(Transaction.class)
+                    .greaterThanOrEqualTo("date", startTime)
+                    .lessThan("date", endTime)
+                    .sum("amount")
+                    .doubleValue();
+
+
+
+        }
+
+
         totalIncome.setValue(income);
         totalExpense.setValue(expense);
         totalAmount.setValue(total);
@@ -148,14 +190,7 @@ public class MainViewModel extends AndroidViewModel {
 //
 //
     }
-    ////        this.calendar = calendar;
-////        calendar.set(Calendar.HOUR_OF_DAY, 0);
-////        calendar.set(Calendar.MINUTE, 0);
-////        calendar.set(Calendar.SECOND, 0);
-////        calendar.set(Calendar.MILLISECOND, 0);
-//
-//
-//
+
 
     public void addTransactions(Transaction transaction){
         realm.beginTransaction();

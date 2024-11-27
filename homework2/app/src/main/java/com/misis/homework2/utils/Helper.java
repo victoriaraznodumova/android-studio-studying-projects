@@ -15,5 +15,10 @@ public class Helper {
         return dateFormat.format(date);
     }
 
+    public static String formatDateByYear(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+        return dateFormat.format(date);
+    }
+
 
 }
