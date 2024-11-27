@@ -80,14 +80,18 @@ class MainActivity : AppCompatActivity() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.text?.let { tabText ->
                     when (tabText) {
-                        "Monthly" -> {
+                        "Месяц" -> {
                             Constants.SELECTED_TAB = 1
-//                            selectedTab = 1
                             updateDate()
                         }
 
-                        "Daily" -> {
+                        "День" -> {
                             Constants.SELECTED_TAB = 0
+                            updateDate()
+                        }
+
+                        "Год" -> {
+                            Constants.SELECTED_TAB = 2
                             updateDate()
                         }
                     }

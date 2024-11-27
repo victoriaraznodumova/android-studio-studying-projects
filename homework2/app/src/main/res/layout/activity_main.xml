@@ -75,17 +75,17 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Daily" />
+            android:text="День" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Monthly" />
+            android:text="Месяц" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Yearly" />
+            android:text="Год" />
 
     </com.google.android.material.tabs.TabLayout>
 
@@ -111,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Income" />
+                android:text="Доходы" />
 
             <TextView
                 android:id="@+id/incomeLbl"
@@ -137,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:foregroundGravity="center"
                 android:gravity="center"
-                android:text="Expense" />
+                android:text="Расходы" />
 
             <TextView
                 android:id="@+id/expenseLbl"
@@ -163,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:foregroundGravity="center"
                 android:gravity="center"
-                android:text="Total" />
+                android:text="Всего" />
 
             <TextView
                 android:id="@+id/totalLbl"

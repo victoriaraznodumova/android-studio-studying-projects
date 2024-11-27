@@ -33,7 +33,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center"
                     android:padding="12dp"
-                    android:text="income"
+                    android:text="Доходы"
                     android:textStyle="bold" />
 
                 <TextView
@@ -46,7 +46,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center"
                     android:padding="12dp"
-                    android:text="expense"
+                    android:text="Расходы"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -61,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:hint="Select Date" />
+                    android:hint="Дата" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -73,7 +73,7 @@
                     android:id="@+id/amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Amount"
+                    android:hint="Сумма"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:hint="Category" />
+                    android:hint="Категория" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -102,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:hint="Account" />
+                    android:hint="Счёт" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -114,7 +114,7 @@
                     android:id="@+id/note"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Note" />
+                    android:hint="Заметка" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -122,7 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Save transaction"
+                android:text="Сохранить"
                 app:cornerRadius="3dp" />
 
         </LinearLayout>
