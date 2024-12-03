@@ -88,33 +88,94 @@ class NoteActivity(private var navController: NavHostController, private val not
 
     @Composable
     fun NoteActivityScreen() {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxSize()
+            .background(Color.White, shape = RoundedCornerShape(8.dp))
+            .padding(16.dp)) {
             if (isNotesUploaded.value) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp)
                 ) {
-                    // Заголовок заметки
-                    Text(
-                        text = if (title.value.isEmpty()) "Заголовок отсутствует" else title.value,
-                        fontSize = 25.sp,
-                        color = if (title.value.isEmpty()) Color(0xFF9C9C9C) else Color(0xFF222222),
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Spacer(modifier = Modifier.height(20.dp))
-                    // Текст заметки
-                    Text(
-                        text = text.value,
-                        fontSize = 15.sp,
-                        color = Color(0xFF222222),
-                        maxLines = Int.MAX_VALUE,
-                        overflow = TextOverflow.Clip
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color(0xFFF5F4F2), shape = RoundedCornerShape(8.dp))
+                            .padding(16.dp) // Отступы внутри поля
+                    ) {
+                        BasicTextField(
+                            value = title.value,
+                            onValueChange = { newTitle -> title.value = newTitle },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 8.dp),
+                            textStyle = androidx.compose.ui.text.TextStyle(
+                                fontSize = 20.sp,
+                                color = Color(0xFF404040)
+                            ),
+                            decorationBox = { innerTextField ->
+                                Box {
+                                    if (title.value.isEmpty()) Text(
+                                        text = "Введите заголовок",
+                                        fontSize = 20.sp,
+                                        lineHeight = 32.sp,
+                                        color = Color(0xFF9C9C9C)
+                                    )
+                                    innerTextField()
+                                }
+                            }
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color(0xFFF5F4F2), shape = RoundedCornerShape(8.dp))
+                            .padding(16.dp) // Отступы внутри поля
+                    ) {
+                        // Поле для ввода текста
+                        BasicTextField(
+                            value = text.value,
+                            onValueChange = { newText -> text.value = newText },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .heightIn(min = 200.dp),
+                            textStyle = androidx.compose.ui.text.TextStyle(
+                                fontSize = 16.sp,
+                                color = Color(0xFF404040)
+                            ),
+                            decorationBox = { innerTextField ->
+                                Box {
+                                    if (text.value.isEmpty()) Text(
+                                        text = "Введите текст заметки",
+                                        fontSize = 16.sp,
+                                        color = Color(0xFF9C9C9C)
+                                    )
+                                    innerTextField()
+                                }
+                            }
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+
+                    // Кнопка для сохранения заметки
+                    Button(
+                        onClick = {
+                            saveNote() // Вызов функции сохранения
+                            navController.navigateUp() // Возврат на предыдущую страницу
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp)
+                    ) {
+                        Text(text = "Сохранить")
+                    }
                 }
             } else {
-                // Если данные еще не загружены
                 Text(
                     text = "Загрузка заметки...",
                     modifier = Modifier.align(Alignment.Center),
@@ -122,7 +183,79 @@ class NoteActivity(private var navController: NavHostController, private val not
                     color = Color(0xFF9C9C9C)
                 )
             }
+
+
+
+
+
+
+
+//
+//
+//
+//
+//                    // Заголовок заметки
+//                    Text(
+//                        text = if (title.value.isEmpty()) "Заголовок отсутствует" else title.value,
+//                        fontSize = 25.sp,
+//                        color = if (title.value.isEmpty()) Color(0xFF9C9C9C) else Color(0xFF222222),
+//                        maxLines = 2,
+//                        overflow = TextOverflow.Ellipsis
+//                    )
+//                    Spacer(modifier = Modifier
+//                        .height(20.dp)
+//                    )
+//                    // Текст заметки
+//                    Text(
+//                        text = text.value,
+//                        fontSize = 15.sp,
+//                        color = Color(0xFF222222),
+//                        maxLines = Int.MAX_VALUE,
+//                        overflow = TextOverflow.Clip
+//                    )
+//                }
+//            } else {
+//                // Если данные еще не загружены
+//                Text(
+//                    text = "Загрузка заметки...",
+//                    modifier = Modifier.align(Alignment.Center),
+//                    fontSize = 18.sp,
+//                    color = Color(0xFF9C9C9C)
+//                )
+//            }
         }
+    }
+
+
+
+
+
+
+    private fun saveNote() {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val responseFuture = if (noteId == "-1") {
+                    // Если это новая заметка
+                    api.post("/CreateNote?title=${title.value}&text=${text.value}")
+                } else {
+                    // Если заметка уже существует
+                    api.post("/EditNote?id=$noteId&title=${title.value}&text=${text.value}")
+                }
+
+                // Ожидание результата
+                val response = responseFuture.get()
+
+                // Проверка успешности через содержимое строки или другие критерии
+                if (response.contains("success", ignoreCase = true)) {
+                    println("Заметка успешно сохранена")
+                } else {
+                    println("Ошибка при сохранении заметки: $response")
+                }
+            } catch (e: Exception) {
+                println("Ошибка: ${e.message}")
+            }
+        }
+    }
     }
 
 
@@ -140,19 +273,6 @@ class NoteActivity(private var navController: NavHostController, private val not
 
 
 
-//            val notesFuture: CompletableFuture<Response> = api.get("/") // Запрос заметок с сервера
-//            val notesResponse = notesFuture.get() // Ожидание ответа
-//
-//            if (notesResponse.isSuccessful) {
-//                val notesList = json.readValue<List<NoteViewModel>>(notesResponse.body?.string().toString()) // обработка тела ответа на запрос с последующей десериализацией
-//                notesResponse.close() // Закрытие ответа на запрос. Если не закрыть - поток не будет остановлен и приложение может завершиться с ошибкой
-//                // Сортировка заметок по дате обновления в порядке убывания
-//                val sortedNotes = notesList.sortedByDescending { ZonedDateTime.parse(it.UpdatedAt) }
-//                withContext(Dispatchers.Main) {
-//                    notes.value = sortedNotes // Обновление состояния заметок
-//                    isNotesUploaded.value = true // Показываем, что заметки были загружены
-//                }
-//            }
 
 
 
@@ -161,8 +281,6 @@ class NoteActivity(private var navController: NavHostController, private val not
 
 
 
-
-        }
 
 
 
@@ -199,94 +317,7 @@ class NoteActivity(private var navController: NavHostController, private val not
 
 
 //    @Composable
-//    fun NoteActivityScreen() {
-//        Box(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .background(Color.White)
-//        ) {
-//            Column(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(16.dp)        ) {
-//            // Надпись "Заметка"
-//                Text(
-//                    text = "Заметка",
-//                    fontSize = 24.sp,
-//                    color = Color.Black,
-//                    modifier = Modifier.padding(bottom = 16.dp)
-//                )            // Заголовок заметки с рамкой
-//                Box(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .background(Color(0xFFF5F4F2),
-//                            shape = RoundedCornerShape(8.dp)
-//                        )
-//                        .padding(8.dp)            )
-//                {
-//                    BasicTextField(
-//                        value = title.value,
-//                        onValueChange = { newText -> title.value = newText },
-//                        modifier = Modifier
-//                            .fillMaxWidth(),
-//                        textStyle = androidx.compose.ui.text.TextStyle(
-//                            fontSize = 20.sp,
-//                            color = Color(0xFF404040)
-//                        ),
-//                        decorationBox = { innerTextField ->
-//                            Box {
-//                                if (title.value.isEmpty()) {
-//                                    Text(
-//                                        text = "Введите заголовок",
-//                                        fontSize = 20.sp,
-//                                        color = Color(0xFF9C9C9C)
-//                                    )
-//                                }
-//                                innerTextField()
-//                            }
-//                        }
-//                    )
-//                }
-//                Spacer(modifier = Modifier.height(16.dp))            // Текст заметки с рамкой
-//                Box(
-//                       modifier = Modifier
-//                           .fillMaxWidth()
-//                           .heightIn(min = 200.dp)
-//                           .background(Color(0xFFF5F4F2), shape = RoundedCornerShape(8.dp))
-//                           .padding(8.dp)
-//                ) {
-//                    BasicTextField(
-//                        value = content.value,
-//                        // переменную text заменила на content
-//                        onValueChange = { newText -> content.value = newText },
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .heightIn(min = 200.dp),
-//                        textStyle = androidx.compose.ui.text.TextStyle(
-//                            fontSize = 16.sp,
-//                            color = Color(0xFF404040)
-//                        ),
-//                        decorationBox = { innerTextField ->
-//                            Box {
-//                                if (content.value.isEmpty()) {
-//                                    Text(
-//                                        text = "Введите текст заметки",
-//                                        fontSize = 16.sp,
-//                                        color = Color(0xFF9C9C9C)
-//                                    )
-//                                }
-//                                innerTextField()
-//                            }
-//                        }
-//                    )
-//                }
-//                Spacer(modifier = Modifier.height(16.dp))            // Кнопка сохранения заметки
-//            Button(
-//                onClick = {
-////                    saveNote()
-//                    navController.navigateUp()
-//                },
-//                modifier = Modifier
+//
 //                    .fillMaxWidth()
 //                    .padding(top = 16.dp)
 //            ) {
@@ -295,13 +326,3 @@ class NoteActivity(private var navController: NavHostController, private val not
 //            }
 //        }
 //    }
-
-
-
-
-
-
-
-
-
-

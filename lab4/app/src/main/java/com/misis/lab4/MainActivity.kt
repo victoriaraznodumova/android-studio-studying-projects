@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
                     isNoteInitialize.value = true
                     note = NoteActivity(navController, it.arguments?.getString("note_id")!!)
                 }
-//                note.NoteActivityScreen() // будет подсвечиваться красным, это нормально
+                note.NoteActivityScreen() // будет подсвечиваться красным, это нормально
             }
         }
     }
